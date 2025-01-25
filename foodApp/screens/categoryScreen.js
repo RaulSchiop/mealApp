@@ -12,7 +12,7 @@ function CategoryScreen({ navigation }) {
      
 
    return (
-      <View>
+      <View style={{backgroundColor:"black"}}>
          <FlatList
             numColumns={2}
             keyExtractor={(item) => item.id}
