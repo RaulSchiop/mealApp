@@ -1,23 +1,45 @@
 import { useRoute } from "@react-navigation/native";
-import { Text, View, StyleSheet, Image, ScrollView, Button } from "react-native";
+import {
+   Text,
+   View,
+   StyleSheet,
+   Image,
+   ScrollView,
+   Button,
+   Pressable,
+} from "react-native";
+import { Platform } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 function DetailPage() {
    const route = useRoute();
    const mealsId = route.params.mealID;
    const selectedMeals = MEALS.find((item) => item.id === mealsId);
    const navigation = useNavigation();
+
+   function handlePressButtonNav() {
+      console.log("pressed");
+   }
    useLayoutEffect(() => {
-
       navigation.setOptions({
-         headerRight:()=>{
-            return <Button title="tap me"></Button>
-         }
-      })
-
-   }, [navigation,mealsId]);
+         headerRight: () => {
+            return (
+            
+                  <Pressable
+                     onPress={handlePressButtonNav}
+                  
+                     
+                  >
+                     <Ionicons name="star" size={24} color="white"></Ionicons>
+                  </Pressable>
+            
+            );
+         },
+      });
+   }, [navigation, handlePressButtonNav]);
 
    return (
       <View style={styles.container}>
@@ -64,8 +86,10 @@ function DetailPage() {
                >
                   Ingredients
                </Text>
-               {selectedMeals.ingredients.map((item) => (
-                  <Text style={styles.listText}>{item}</Text>
+               {selectedMeals.ingredients.map((item, index) => (
+                  <Text key={index} style={styles.listText}>
+                     {item}
+                  </Text>
                ))}
             </View>
             <View style={styles.ingredAndStepsCont}>
@@ -82,8 +106,10 @@ function DetailPage() {
                >
                   Steps
                </Text>
-               {selectedMeals.steps.map((item) => (
-                  <Text style={styles.listText}>{item}</Text>
+               {selectedMeals.steps.map((item, index) => (
+                  <Text key={index} style={styles.listText}>
+                     {item}
+                  </Text>
                ))}
             </View>
          </ScrollView>
