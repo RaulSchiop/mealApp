@@ -8,7 +8,7 @@ import {
    Button,
    Pressable,
 } from "react-native";
-import { Platform } from "react-native";
+
 import { MEALS } from "../data/dummy-data";
 import { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -27,15 +27,9 @@ function DetailPage() {
       navigation.setOptions({
          headerRight: () => {
             return (
-            
-                  <Pressable
-                     onPress={handlePressButtonNav}
-                  
-                     
-                  >
-                     <Ionicons name="star" size={24} color="white"></Ionicons>
-                  </Pressable>
-            
+               <Pressable onPress={handlePressButtonNav}>
+                  <Ionicons name="star" size={24} color="white"></Ionicons>
+               </Pressable>
             );
          },
       });
@@ -71,7 +65,7 @@ function DetailPage() {
                {selectedMeals.affordability.toUpperCase()}
             </Text>
          </View>
-         <ScrollView>
+         <ScrollView style={{ flex: 1 }}>
             <View style={styles.ingredAndStepsCont}>
                <Text
                   style={[
@@ -130,6 +124,7 @@ const styles = StyleSheet.create({
    },
    container: {
       flex: 1,
+      paddingVertical:10
    },
    secText: {
       flexDirection: "row",
@@ -146,6 +141,7 @@ const styles = StyleSheet.create({
    ingredAndStepsCont: {
       paddingHorizontal: 20,
       marginVertical: 10,
+      paddingVertical:20,
    },
 });
 export default DetailPage;
