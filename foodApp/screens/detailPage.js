@@ -1,4 +1,6 @@
 import { useRoute } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
+
 import {
    Text,
    View,
@@ -13,22 +15,43 @@ import { MEALS } from "../data/dummy-data";
 import { useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { addFavorite, removeFavorites } from "../state/favorites";
 
 function DetailPage() {
+   const favoritesIds = useSelector((state) => state.favoritesMeals.ids);
    const route = useRoute();
    const mealsId = route.params.mealID;
    const selectedMeals = MEALS.find((item) => item.id === mealsId);
    const navigation = useNavigation();
+   const despach = useDispatch();
+
+   const mealFavorites = favoritesIds.includes(mealsId);
 
    function handlePressButtonNav() {
       console.log("pressed");
    }
+
+   function changeFavStatus() {
+      if (mealFavorites) {
+         despach(removeFavorites({ id: mealsId }));
+      } else {
+         despach(addFavorite({ id: mealsId }));
+      }
+   }
+
    useLayoutEffect(() => {
       navigation.setOptions({
          headerRight: () => {
             return (
-               <Pressable onPress={handlePressButtonNav}>
-                  <Ionicons name="star" size={24} color="white"></Ionicons>
+               <Pressable
+                  onPress={changeFavStatus}
+                  style={{padding:10}}
+               >
+                  <Ionicons
+                     name={mealFavorites ? "star" : "star-outline"}
+                     size={24}
+                     color="white"
+                  ></Ionicons>
                </Pressable>
             );
          },
@@ -124,7 +147,7 @@ const styles = StyleSheet.create({
    },
    container: {
       flex: 1,
-      paddingVertical:10
+      paddingVertical: 10,
    },
    secText: {
       flexDirection: "row",
@@ -141,7 +164,7 @@ const styles = StyleSheet.create({
    ingredAndStepsCont: {
       paddingHorizontal: 20,
       marginVertical: 10,
-      paddingVertical:20,
+      paddingVertical: 20,
    },
 });
 export default DetailPage;

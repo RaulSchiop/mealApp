@@ -7,6 +7,9 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Meals from "./screens/mealsScreen";
 import DetailPage from "./screens/detailPage";
 import Favorite from "./screens/favorite";
+import {Provider} from "react-redux"
+import { store } from "./state/store";
+
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -48,6 +51,7 @@ export default function App() {
   return (
     <>
       <StatusBar style="light"></StatusBar>
+      <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -74,7 +78,9 @@ export default function App() {
             component={DetailPage}
           ></Stack.Screen>
         </Stack.Navigator>
+
       </NavigationContainer>
+      </Provider>
     </>
   );
 }
